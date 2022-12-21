@@ -92,6 +92,10 @@ $route['viewinvoice/(:num)/(:any)'] = 'invoice/index/$1/$2';
  * @since 2.0.0
  */
 $route['invoice/(:num)/(:any)'] = 'invoice/index/$1/$2';
+$route['add-card/(:any)/(:any)']['post'] = 'invoice/addCardInit/$1/$2';
+$route['add-card/(:any)/(:any)'] = 'invoice/addCardInit/$1/$2';
+$route['card-added/(:any)/(:any)'] = 'invoice/addCardComplete/$1/$2';
+$route['invoice/pay/(:num)/(:any)'] = 'invoice/paymentProcess/$1/$2';
 
 /**
  * @deprecated

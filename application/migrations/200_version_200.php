@@ -265,6 +265,9 @@ class Migration_Version_200 extends CI_Migration
 
         $this->db->query('ALTER TABLE `tblclients` ADD `stripe_id` VARCHAR(40) NULL AFTER `show_primary_contact`;');
 
+        $this->db->query('ALTER TABLE `tblclients` ADD `stripe_customer_id` VARCHAR(40) NULL AFTER `stripe_id`;');
+        $this->db->query('ALTER TABLE `tblclients` ADD `stripe_payment_method_id` VARCHAR(40) NULL AFTER `stripe_customer_id`;');
+
         $this->db->query('ALTER TABLE `tblemailqueue` ADD `engine` VARCHAR(40) NULL AFTER `id`;');
         $this->db->query('UPDATE tblemailqueue SET engine="codeigniter";');
 

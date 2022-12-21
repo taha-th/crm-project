@@ -584,3 +584,8 @@ if (defined('APP_MEMORY_LIMIT')) {
 $config['modules_locations'] = [
     APP_MODULES_PATH => '../../modules/',
 ];
+#--------------------------------------------------------------------
+# Stripe
+#--------------------------------------------------------------------
+$config['stripe_key'] = 'pk_test_51MErs6BjeXsWYLN7CNRklYMIFMu2PZU0sDOeNylH1ekE2z5I4UoNSERoyIUI1Lk3jzOWuoI9FHqlJDtLJJOpvUZ7001DQvOKis';
+$config['stripe_secret'] = 'sk_test_51MErs6BjeXsWYLN7Z6PfPkQsCYt5aDebr6G96pNv5fe5U8pVUl1z8jACqyI8QqWllrnIFsLsmBibishRISXv10z900SjnlDbmk';
