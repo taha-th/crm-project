@@ -13,6 +13,14 @@ function app_init_admin_sidebar_menu_items()
         'badge'    => [],
     ]);
 
+    $CI->app_menu->add_sidebar_menu_item('Inquiries', [
+        'name'     => 'Inquireies',
+        'href'     => admin_url('inquiry'),
+        'position' => 22,
+        'icon'     => 'fa fa-envelope',
+        'badge'    => [],
+    ]);
+
     if (
         has_permission('customers', '', 'view')
         || (have_assigned_customers()

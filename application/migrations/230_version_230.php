@@ -48,6 +48,7 @@ class Migration_Version_230 extends CI_Migration
                           `refunded_on` date NOT NULL,
                           `payment_mode` varchar(40) NOT NULL,
                           `note` text,
+                          `brief` text,
                           `amount` decimal(15,2) NOT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 

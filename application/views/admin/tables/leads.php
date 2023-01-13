@@ -13,11 +13,12 @@ $aColumns = [
     '1',
     db_prefix() . 'leads.id as id',
     db_prefix() . 'leads.name as name',
-    ];
+];
 if (is_gdpr() && $consentLeads == '1') {
     $aColumns[] = '1';
 }
-$aColumns = array_merge($aColumns, ['company',
+$aColumns = array_merge($aColumns, [
+    'company',
     db_prefix() . 'leads.email as email',
     db_prefix() . 'leads.phonenumber as phonenumber',
     'lead_value',
@@ -75,9 +76,11 @@ if (has_permission('leads', '', 'view') && $this->ci->input->post('assigned')) {
     array_push($where, 'AND assigned =' . $this->ci->db->escape_str($this->ci->input->post('assigned')));
 }
 
-if ($this->ci->input->post('status')
+if (
+    $this->ci->input->post('status')
     && count($this->ci->input->post('status')) > 0
-    && ($filter != 'lost' && $filter != 'junk')) {
+    && ($filter != 'lost' && $filter != 'junk')
+) {
     array_push($where, 'AND status IN (' . implode(',', $this->ci->db->escape_str($this->ci->input->post('status'))) . ')');
 }
 
@@ -126,6 +129,9 @@ foreach ($rResult as $aRow) {
     $nameRow .= '<div class="row-options">';
     $nameRow .= '<a ' . $hrefAttr . '>' . _l('view') . '</a>';
 
+    $briefHrefAttr = 'href="' . admin_url('leads/' . $aRow['id'] . '/brief') . '"';
+    $nameRow .= ' | <a ' . $briefHrefAttr . '>' . _l('view Brief') . '</a>';
+
     $locked = false;
 
     if ($aRow['is_converted'] > 0) {
@@ -160,7 +166,7 @@ foreach ($rResult as $aRow) {
     $row[] = ($aRow['phonenumber'] != '' ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
 
     $base_currency = get_base_currency();
-    $row[] = ($aRow['lead_value'] != 0 ? app_format_money($aRow['lead_value'],$base_currency->symbol) : '');
+    $row[] = ($aRow['lead_value'] != 0 ? app_format_money($aRow['lead_value'], $base_currency->symbol) : '');
 
     $row[] .= render_tags($aRow['tags']);
 
@@ -170,7 +176,7 @@ foreach ($rResult as $aRow) {
 
         $assignedOutput = '<a data-toggle="tooltip" data-title="' . $full_name . '" href="' . admin_url('profile/' . $aRow['assigned']) . '">' . staff_profile_image($aRow['assigned'], [
             'staff-profile-image-small',
-            ]) . '</a>';
+        ]) . '</a>';
 
         // For exporting
         $assignedOutput .= '<span class="hide">' . $full_name . '</span>';
@@ -185,7 +191,7 @@ foreach ($rResult as $aRow) {
             $outputStatus = '<span class="label label-warning inline-block">' . _l('lead_junk') . '</span>';
         }
     } else {
-        $outputStatus = '<span class="inline-block lead-status-'.$aRow['status'].' label label-' . (empty($aRow['color']) ? 'default': '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
+        $outputStatus = '<span class="inline-block lead-status-' . $aRow['status'] . ' label label-' . (empty($aRow['color']) ? 'default' : '') . '" style="color:' . $aRow['color'] . ';border:1px solid ' . $aRow['color'] . '">' . $aRow['status_name'];
         if (!$locked) {
             $outputStatus .= '<div class="dropdown inline-block mleft5 table-export-exclude">';
             $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="tableLeadsStatus-' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';

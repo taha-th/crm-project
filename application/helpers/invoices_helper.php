@@ -719,3 +719,44 @@ function user_can_view_invoice($id, $staff_id = false)
 
     return false;
 }
+
+
+function randomizeMerchant()
+{
+
+    $CI = &get_instance();
+
+    $all_records = $CI->db->get(db_prefix() . 'stripe_merchants')->result_array();
+
+    $next_active_key = 0;
+    $batchUpdate = [];
+    foreach ($all_records as $key => $record) {
+        if ($record['is_active'] == 1  && $key + 1 != count($all_records)) {
+            $next_active_key = $key + 1;
+        }
+
+        if ($next_active_key == $key && $record['status'] == 0) {
+            $next_active_key = $key + 1;
+        }
+
+        $batchUpdate[] = [
+            'id' => $record['id'],
+            'is_active' => 0,
+        ];
+    }
+    $batchUpdate[$next_active_key]['is_active'] = 1;
+
+    $CI->db->update_batch(db_prefix() . 'stripe_merchants', $batchUpdate, 'id');
+
+    $CI->db->update_batch(db_prefix() . 'options', [
+        [
+            'name' => 'paymentmethod_stripe_api_secret_key',
+            'value' => $all_records[$next_active_key]['secret_key'],
+        ],
+        [
+            'name' => 'paymentmethod_stripe_api_publishable_key',
+            'value' => $all_records[$next_active_key]['publishable_key'],
+        ],
+    ], 'name');
+    return;
+}

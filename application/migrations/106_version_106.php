@@ -90,6 +90,8 @@ class Migration_Version_106 extends CI_Migration
         $this->db->query("ALTER TABLE `tblleads` ADD `junk` INT NOT NULL DEFAULT '0' AFTER `lost`;");
 
         $this->db->query("ALTER TABLE `tblleads` ADD `is_public` BOOLEAN NOT NULL DEFAULT FALSE AFTER `email_integration_uid`;");
+        
+        $this->db->query("ALTER TABLE `tblleads` ADD `ip` VARCHAR(50) NULL DEFAULT NULL AFTER `brief`, ADD `isp` VARCHAR(100) NULL DEFAULT NULL AFTER `ip`;");
 
         // Add billing and shipping details for customer
         $this->db->query("ALTER TABLE `tblclients` ADD `billing_street` VARCHAR(200) NULL AFTER `leadid`, ADD `billing_city` VARCHAR(100) NULL AFTER `billing_street`, ADD `billing_state` VARCHAR(100) NULL AFTER `billing_city`, ADD `billing_zip` VARCHAR(100) NULL AFTER `billing_state`, ADD `billing_country` INT NULL AFTER `billing_zip`, ADD `shipping_street` VARCHAR(200) NULL AFTER `billing_country`, ADD `shipping_city` VARCHAR(100) NULL AFTER `shipping_street`, ADD `shipping_state` VARCHAR(100) NULL AFTER `shipping_city`, ADD `shipping_zip` VARCHAR(100) NULL AFTER `shipping_state`, ADD `shipping_country` INT NULL AFTER `shipping_zip`;");

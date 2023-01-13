@@ -90,8 +90,12 @@ class Invoice extends ClientsController
 
     public function addCardInit($invoice_id, $invoice_hash)
     {
-        $stripe_secret_key = $this->config->item('stripe_secret');
-        $stripe_publishable_key = $this->config->item('stripe_key');
+
+        $stripe_secret_key = get_instance()->encryption->decrypt(get_option('paymentmethod_stripe_api_secret_key'));
+        $stripe_publishable_key = get_option('paymentmethod_stripe_api_publishable_key');
+
+        // $stripe_secret_key = $this->config->item('stripe_secret');
+        // $stripe_publishable_key = $this->config->item('stripe_key');
 
         // Commenting for now because don't know where to get dynamic user details
         // $invoice = $this->invoices_model->get($invoice_id);
@@ -168,8 +172,12 @@ class Invoice extends ClientsController
 
     public function addCardComplete($invoice_id, $invoice_hash)
     {
-        $stripe_secret_key = $this->config->item('stripe_secret');
-        $stripe_publishable_key = $this->config->item('stripe_key');
+        $stripe_secret_key = get_instance()->encryption->decrypt(get_option('paymentmethod_stripe_api_secret_key'));
+        $stripe_publishable_key = get_option('paymentmethod_stripe_api_publishable_key');
+
+        // $stripe_secret_key = $this->config->item('stripe_secret');
+        // $stripe_publishable_key = $this->config->item('stripe_key');
+
         $setup_intent_id = $this->input->get('setup_intent');
         $setup_intent_client_secret = $this->input->get('setup_intent_client_secret');
 
@@ -208,8 +216,12 @@ class Invoice extends ClientsController
     public function paymentProcess($invoice_id, $invoice_hash)
     {
 
-        $stripe_secret_key = $this->config->item('stripe_secret');
-        $stripe_publishable_key = $this->config->item('stripe_key');
+        $stripe_secret_key = get_instance()->encryption->decrypt(get_option('paymentmethod_stripe_api_secret_key'));
+        $stripe_publishable_key = get_option('paymentmethod_stripe_api_publishable_key');
+
+        // $stripe_secret_key = $this->config->item('stripe_secret');
+        // $stripe_publishable_key = $this->config->item('stripe_key');
+
         $successUrl = site_url('gateways/stripe/success/' . $invoice_id . '/' . $invoice_hash);
         $cancelUrl  = site_url('invoice/' . $invoice_id . '/' . $invoice_hash);
 
@@ -226,7 +238,7 @@ class Invoice extends ClientsController
         // $this->stripe_gateway->process_payment($data);
         // return;
         try {
-           $paymentIntent = \Stripe\PaymentIntent::create([
+            $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => $invoice->total * 100,
                 'currency' => 'usd',
                 'customer' => $client->stripe_customer_id,
@@ -243,10 +255,10 @@ class Invoice extends ClientsController
                 'amount' => $invoice->total,
                 'paymentmode' => 'stripe',
                 'date' => date('Y-m-d'),
-                'transactionid' => date('Y-m-d H:i:s'),
+                'daterecorded' => date('Y-m-d H:i:s'),
                 'transactionid' => $paymentIntent['id']
             ]);
-
+            randomizeMerchant();
             redirect($successUrl);
         } catch (\Stripe\Exception\CardException $e) {
             // Error code will be authentication_required if authentication is needed

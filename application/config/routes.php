@@ -51,6 +51,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |       my-controller/my-method -> my_controller/my_method
 */
 
+// API ROUTES
+
+$route['api/lead/create']['post'] = 'api/leads/createLead';
+$route['api/lead/add-brief/(:any)']['post'] = 'api/leads/addBrief/$1';
+$route['api/lead/update-brief/(:any)']['post'] = 'api/leads/UpdateBrief/$1';
+$route['api/lead/(:any)/paid'] = 'api/leads/paid/$1';
+
+// Inquiry Routes
+$route['api/inquiry/create']['post'] = 'api/Inquiry/create';
+
+// END API ROUTES
+
+
+
+$route['admin/leads/(:any)/brief'] = 'admin/leads/viewBrief/$1';
+
 $route['default_controller']   = 'clients';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = false;

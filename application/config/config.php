@@ -587,5 +587,10 @@ $config['modules_locations'] = [
 #--------------------------------------------------------------------
 # Stripe
 #--------------------------------------------------------------------
-$config['stripe_key'] = 'pk_test_51MErs6BjeXsWYLN7CNRklYMIFMu2PZU0sDOeNylH1ekE2z5I4UoNSERoyIUI1Lk3jzOWuoI9FHqlJDtLJJOpvUZ7001DQvOKis';
-$config['stripe_secret'] = 'sk_test_51MErs6BjeXsWYLN7Z6PfPkQsCYt5aDebr6G96pNv5fe5U8pVUl1z8jACqyI8QqWllrnIFsLsmBibishRISXv10z900SjnlDbmk';
+// $config['stripe_key'] = 'pk_test_51MErs6BjeXsWYLN7CNRklYMIFMu2PZU0sDOeNylH1ekE2z5I4UoNSERoyIUI1Lk3jzOWuoI9FHqlJDtLJJOpvUZ7001DQvOKis';
+// // $config['stripe_secret'] =  get_instance()->encryption->decrypt(get_option('paymentmethod_stripe_api_secret_key')); 
+// // '';
+// $config['stripe_secret'] = 'sk_test_51MErs6BjeXsWYLN7Z6PfPkQsCYt5aDebr6G96pNv5fe5U8pVUl1z8jACqyI8QqWllrnIFsLsmBibishRISXv10z900SjnlDbmk';
+// // 
+// // $config['stripe_key'] = get_option('paymentmethod_stripe_api_publishable_key');
+// // '';
